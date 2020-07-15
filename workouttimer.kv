@@ -1,0 +1,381 @@
+<MainWindow>:
+    id: main
+    name: "main"
+    numbersets: numbersets
+    intervalresthour: intervalresthour
+    intervalrestminute: intervalrestminute
+    intervalrestsecond: intervalrestsecond
+    setsresthour: setsresthour
+    setsrestminute: setsrestminute
+    setsrestsecond: setsrestsecond
+    FloatLayout:
+        id: firstpart
+        size_hint: 1, 0.3
+        pos_hint: {"x":0, "top":1}
+
+        Label:
+            text: 'H'
+            size_hint: 0.1, 0.1
+            pos_hint: {"x": 0.6, "top": 0.9}
+        
+        Label:
+            text: 'M'
+            size_hint: 0.1, 0.1
+            pos_hint: {"x": 0.7, "top": 0.9}
+
+        Label:
+            text: 'S'
+            size_hint: 0.1, 0.1
+            pos_hint: {"x": 0.8, "top": 0.9}
+
+        
+        Label:
+            size_hint: 0.7, 0.15
+            pos_hint: {"x": 0, "top": 0.8}
+            text: "Rest Between Intervals"
+        
+        TextInput:
+            id: intervalresthour
+            text: '0'
+            size_hint: 0.1, 0.15
+            pos_hint: {"x": 0.6, "top": 0.8}
+            multiline: False
+        
+        TextInput:
+            id: intervalrestminute
+            text: '0'
+            size_hint: 0.1, 0.15
+            pos_hint: {"x": 0.7, "top": 0.8}
+            multiline: False
+        
+        TextInput:
+            id: intervalrestsecond
+            text: '15'
+            size_hint: 0.1, 0.15
+            pos_hint: {"x": 0.8, "top": 0.8}
+            multiline: False
+    
+        Label:
+            size_hint: 0.7, 0.15
+            pos_hint: {"x": 0, "top": 0.6}
+            text: "Rest Between Sets"
+        
+        TextInput:
+            id: setsresthour
+            text: '0'
+            size_hint: 0.1, 0.15
+            pos_hint: {"x": 0.6, "top": 0.6}
+            multiline: False
+        
+        TextInput:
+            id: setsrestminute
+            text: '0'
+            size_hint: 0.1, 0.15
+            pos_hint: {"x": 0.7, "top": 0.6}
+            multiline: False
+        
+        TextInput:
+            id: setsrestsecond
+            text: '30'
+            size_hint: 0.1, 0.15
+            pos_hint: {"x": 0.8, "top": 0.6}
+            multiline: False
+
+        Label:
+            size_hint: 0.7, 0.15
+            pos_hint: {"x": 0, "top": 0.4}
+            text: "Number of Sets"
+        
+        TextInput:
+            id: numbersets
+            text: '1'
+            size_hint: 0.3, 0.15
+            pos_hint: {"x": 0.6, "top": 0.4}
+            multiline: False
+        
+        Label:
+            size_hint: 1, 0.15
+            pos_hint: {"x": 0, "top": 0.1}
+            text: "Activity List"
+    
+    BoxLayout:
+        id: secondpart
+        size_hint: 1, 0.5
+        pos_hint: {"x":0, "top":0.65}
+
+        RV:
+            viewclass: 'Label'
+            id: rvlist
+            RecycleBoxLayout:
+                default_size: None, 56
+                default_size_hint: 1, None
+                size_hint: 1, None
+                height: self.minimum_height
+                orientation: 'vertical'
+    
+    FloatLayout:
+        id: thirdpart
+        size_hint: 1, 0.15
+        post_hint: {"x":0, "top": 0.15}
+
+        Button:
+            size_hint: 0.3, 0.25
+            pos_hint: {"center_y":0.5, "center_x":0.2}
+            text: "Edit"
+            on_release:
+                root.show_editpop()
+
+        Button:
+            size_hint: 0.3, 0.25
+            pos_hint: {"center_y":0.5, "center_x":0.5}
+            text: "Start"
+            on_release:
+                root.updatedatabase()
+                app.root.current = "activity"
+                root.manager.transition.direction = "left"
+                
+        Button:
+            size_hint: 0.3, 0.25
+            pos_hint: {"center_y":0.5, "right":0.95}
+            text: "Add"
+            on_release:
+                root.show_inputpop()
+                
+    
+<ActivityWindow>:
+    id: activity
+    name: "activity"
+    FloatLayout:
+        Label:
+            id: countdown
+            size_hint: 0.3, 0.3
+            pos_hint: {"center_x": 0.5, "center_y": 0.9}
+            text: "0"
+            font_size: 70
+
+        Label:
+            size_hint: 0.3, 0.3
+            pos_hint: {"center_x": 0.5, "center_y": 0.7}
+            text: "Current Activity"
+            font_size: 50
+
+        Label:
+            id: currentactivity
+            size_hint: 0.3, 0.3
+            pos_hint: {"center_x": 0.5, "center_y": 0.6}
+            text: ""
+            font_size: 50
+        
+        Label:
+            size_hint: 0.3, 0.3
+            pos_hint: {"center_x": 0.5, "center_y": 0.4}
+            text: "Next Activity"
+            font_size: 50
+        
+        Label:
+            id: nextactivity
+            size_hint: 0.3, 0.3
+            pos_hint: {"center_x": 0.5, "center_y": 0.3}
+            text: ""
+            font_size: 50
+        
+        Button:
+            text: "Back"
+            size_hint: 0.2, 0.05
+            pos_hint: {"x": 0.7, "y": 0.05}
+            on_release:
+                root.back()
+                app.root.current = "main"
+                root.manager.transition.direction = "right"
+        
+        Button:
+            id: startstop
+            text: "Start"
+            size_hint: 0.2, 0.05
+            pos_hint: {"center_x": 0.5, "y": 0.05}
+            on_release:
+                root.startstop()
+
+
+<ActivityInputWindow>:
+    name: "activityinput"
+    activityname: activityname
+    newactivityhour: newactivityhour
+    newactivityminute: newactivityminute
+    newactivitysecond: newactivitysecond
+    Label:
+        size_hint: 0.6, 0.1
+        pos_hint: {"center_x":0.5, "top": 0.85}
+        text: "Activity Name"
+
+    TextInput:
+        id: activityname
+        size_hint: 0.6, 0.1
+        pos_hint: {"center_x":0.5, "top": 0.75}
+        multiline: False
+
+    Label:
+        size_hint: 0.6, 0.1
+        pos_hint: {"center_x":0.5, "top": 0.55}
+        multiline: False
+        text: "Duration"
+    
+    Label:
+        size_hint: 0.2, 0.1
+        pos_hint: {"center_x":0.3, "top": 0.5}
+        multiline: False
+        text: "H"
+    
+    Label:
+        size_hint: 0.2, 0.1
+        pos_hint: {"center_x":0.5, "top": 0.5}
+        multiline: False
+        text: "M"
+    
+    Label:
+        size_hint: 0.2, 0.1
+        pos_hint: {"center_x":0.7, "top": 0.5}
+        multiline: False
+        text: "S"
+
+    TextInput:
+        id: newactivityhour
+        size_hint: 0.15, 0.1
+        pos_hint: {"center_x":0.3, "top": 0.40}
+        text: "0"
+        multiline: False
+    
+    TextInput:
+        id: newactivityminute
+        size_hint: 0.15, 0.1
+        pos_hint: {"center_x":0.5, "top": 0.40}
+        text: "0"
+        multiline: False
+    
+    TextInput:
+        id: newactivitysecond
+        size_hint: 0.15, 0.1
+        pos_hint: {"center_x":0.7, "top": 0.40}
+        text: "15"
+        multiline: False
+    
+    Button:
+        size_hint: 0.2, 0.1
+        pos_hint: {"x": 0.75, "y": 0.05}
+        text: "Save"
+        on_release:
+            root.saving()
+
+
+    Button:
+        size_hint: 0.2, 0.1
+        pos_hint: {"x": 0.1, "y": 0.05}
+        text: "Cancel"
+        on_release:
+            root.cancel()
+
+
+<ActivityEditWindow>:
+    name: "activityedit"
+    indexnum: indexnum
+    activityname: activityname
+    activityhour: activityhour
+    activityminute: activityminute
+    activitysecond: activitysecond
+    Label:
+        size_hint: 0.6, 0.1
+        pos_hint: {"center_x":0.5, "top": 0.95}
+        text: "Index Number"
+
+    TextInput:
+        id: indexnum
+        size_hint: 0.2, 0.1
+        pos_hint: {"center_x":0.5, "top": 0.85}
+        multiline: False
+
+    Label:
+        size_hint: 0.6, 0.1
+        pos_hint: {"center_x":0.5, "top": 0.70}
+        text: "Activity Name"
+
+    TextInput:
+        id: activityname
+        size_hint: 0.6, 0.1
+        pos_hint: {"center_x":0.5, "top": 0.60}
+        multiline: False
+
+    Label:
+        size_hint: 0.6, 0.1
+        pos_hint: {"center_x":0.5, "top": 0.45}
+        multiline: False
+        text: "Duration"
+    
+    Label:
+        size_hint: 0.2, 0.1
+        pos_hint: {"center_x":0.3, "top": 0.40}
+        multiline: False
+        text: "H"
+    
+    Label:
+        size_hint: 0.2, 0.1
+        pos_hint: {"center_x":0.5, "top": 0.40}
+        multiline: False
+        text: "M"
+    
+    Label:
+        size_hint: 0.2, 0.1
+        pos_hint: {"center_x":0.7, "top": 0.40}
+        multiline: False
+        text: "S"
+
+    TextInput:
+        id: activityhour
+        size_hint: 0.15, 0.1
+        pos_hint: {"center_x":0.3, "top": 0.3}
+        text: "0"
+        multiline: False
+    
+    TextInput:
+        id: activityminute
+        size_hint: 0.15, 0.1
+        pos_hint: {"center_x":0.5, "top": 0.3}
+        text: "0"
+        multiline: False
+    
+    TextInput:
+        id: activitysecond
+        size_hint: 0.15, 0.1
+        pos_hint: {"center_x":0.7, "top": 0.3}
+        text: "15"
+        multiline: False
+
+    Button:
+        size_hint: 0.3, 0.1
+        pos_hint: {"center_x": 0.80, "y": 0.05}
+        text: "Edit"
+        on_release:
+            root.edit()
+
+    Button:
+        size_hint: 0.3, 0.1
+        pos_hint: {"center_x": 0.5, "y": 0.05}
+        text: "Remove"
+        on_release:
+            root.remove()
+
+    Button:
+        size_hint: 0.3, 0.1
+        pos_hint: {"center_x": 0.2, "y": 0.05}
+        text: "Cancel"
+        on_release:
+            root.cancel()
+
+
+
+        
+
+            
+
+
+    
+    

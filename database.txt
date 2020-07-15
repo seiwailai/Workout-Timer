@@ -1,0 +1,4 @@
+dwadawda, 15
+timer2, 2
+timer3, 2
+timer4, 2
